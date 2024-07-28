@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.hmily.rabbitmqspringbootproduct.domain.Order;
+import com.hmily.rabbitmq.product.domain.Order;
 import com.hmily.rabbitmqspringbootproduct.producer.RabbitSender;
 
 
@@ -30,10 +30,15 @@ public class RabbitmqSpringbootProductApplicationTests {
 	
 	@Test
 	public void testSender1() throws Exception {
-		 Map<String, Object> properties = new HashMap<>();
-		 properties.put("number", "12345");
-		 properties.put("send_time", simpleDateFormat.format(new Date()));
-		 rabbitSender.send("Hello RabbitMQ For Spring Boot!", properties);
+
+		 for(int i=0;i<100;i++){
+			 Map<String, Object> properties = new HashMap<>();
+			 properties.put("number", "12345");
+			 properties.put("send_time", simpleDateFormat.format(new Date()));
+			 rabbitSender.send("Hello RabbitMQ For Spring Boot!", properties);
+			 Thread.sleep(1000);
+		 }
+
 	}
 	
 	

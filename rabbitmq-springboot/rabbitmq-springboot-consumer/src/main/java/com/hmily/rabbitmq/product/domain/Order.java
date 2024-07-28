@@ -1,4 +1,4 @@
-package com.hmily.rabbitmqspringbootproduct.domain;
+package com.hmily.rabbitmq.product.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,8 +13,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class Order implements Serializable {
 
-	private String id;
-	private String name;
+    private String id;
+    private String name;
 
 
 }

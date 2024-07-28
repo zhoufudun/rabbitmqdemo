@@ -1,4 +1,4 @@
-package com.hmily.rabbitmqspringbootconsumer;
+package com.hmily.rabbitmq.consumer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

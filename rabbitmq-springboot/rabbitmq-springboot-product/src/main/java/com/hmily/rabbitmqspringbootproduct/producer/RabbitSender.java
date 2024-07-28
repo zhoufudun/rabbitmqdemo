@@ -1,21 +1,19 @@
 package com.hmily.rabbitmqspringbootproduct.producer;
 
-import java.util.Map;
-import java.util.UUID;
-
+import com.hmily.rabbitmq.product.domain.Order;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate.ConfirmCallback;
 import org.springframework.amqp.rabbit.core.RabbitTemplate.ReturnCallback;
-import org.springframework.amqp.rabbit.support.CorrelationData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
-import com.hmily.rabbitmqspringbootproduct.domain.Order;
-
-import lombok.extern.slf4j.Slf4j;
+import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -31,6 +29,7 @@ public class RabbitSender {
 			log.info("ack: " + ack);
 			if(!ack){
 				log.info("异常处理....");
+				log.error(cause);
 			}
 		}
 	};
@@ -55,7 +54,7 @@ public class RabbitSender {
         String id = UUID.randomUUID().toString();
         log.info("id: {}", id);
 		CorrelationData correlationData = new CorrelationData(id);
-		rabbitTemplate.convertAndSend("exchange-1", "springboot.abc", msg, correlationData);
+		rabbitTemplate.convertAndSend("exchange-1", "key1", msg, correlationData);
 	}
 	
 	
@@ -68,8 +67,8 @@ public class RabbitSender {
         String id = UUID.randomUUID().toString();
         log.info("sendOrder id: {}", id);
 		CorrelationData correlationData = new CorrelationData(id);
-		rabbitTemplate.convertAndSend("exchange-2", "springboot.def", order, correlationData);
+		rabbitTemplate.convertAndSend("exchange-2", "key2", order, correlationData);
 	}
-	
+
 
 }

@@ -1,6 +1,6 @@
-package com.hmily.rabbitmqspringbootconsumer.conusmer;
+package com.hmily.rabbitmq.consumer.conusmer;
 
-import com.hmily.rabbitmqspringbootproduct.domain.Order;
+import com.hmily.rabbitmq.product.domain.Order;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.*;
@@ -17,25 +17,27 @@ import java.util.Map;
 public class RabbitReceiver {
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "queue-1",
+            value = @Queue(value = "hello.queue1",
                     durable="true"),
             exchange = @Exchange(value = "exchange-1",
                     durable="true",
-                    type= "topic",
+                    type= "fanout",
                     ignoreDeclarationExceptions = "true"),
-            key = "springboot.*"
+            key = "key1"
     )
     )
     @RabbitHandler
     public void onMessage(Message message, Channel channel) throws Exception {
         log.info("--------------------------------------");
-        log.info("消费端Payload: " + message.getPayload());
+        log.info("消费端Payload: " + message.getPayload()+", header=[send_time="+message.getHeaders().get("send_time")+", number="+message.getHeaders().get("number")+"]");
         Long deliveryTag = (Long)message.getHeaders().get(AmqpHeaders.DELIVERY_TAG);
         //手工ACK
         channel.basicAck(deliveryTag, false);
     }
 
     /**
+     *
+     * 读取自定义配置项
      *
      * 	spring.rabbitmq.listener.order.queue.name=queue-2
      spring.rabbitmq.listener.order.queue.durable=true

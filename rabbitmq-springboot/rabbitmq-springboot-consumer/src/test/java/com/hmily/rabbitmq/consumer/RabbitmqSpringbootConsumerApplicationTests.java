@@ -1,4 +1,4 @@
-package com.hmily.rabbitmqspringbootconsumer;
+package com.hmily.rabbitmq.consumer;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
